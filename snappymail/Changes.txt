@@ -1,0 +1,3 @@
+v\0.0.0\app\libraries\MailSo\Mail
+
+"if ($spam = $oHeaders->ValueByName(\MailSo\Mime\Enumerations\Header::X_SPAM_STATUS))" as Default
