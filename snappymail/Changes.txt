@@ -1,3 +1,34 @@
 v\0.0.0\app\libraries\MailSo\Mail
 
 "if ($spam = $oHeaders->ValueByName(\MailSo\Mime\Enumerations\Header::X_SPAM_STATUS))" as Default
+
+
+
+https://github.com/the-djmaze/snappymail/blob/master/CONTRIBUTING.md
+Auf dem Raspi
+
+Setup:
+_____
+cd ~
+git clone "https://github.com/tefracky/snappymail"
+cd snappymail
+git checkout private-improvements
+sudo npm install gulp -g
+yarn install
+gulp
+
+sudo apt install libzip-dev zip php-zip
+_____
+
+Update:
+_____
+cd ~/snappymail
+git checkout private-improvements
+git pull
+php release.php
+
+cp "build/dist/releases/webmail/2.26.4/snappymail-2.26.4.zip" "../nextcloud/snappymail-2.26.4.zip"
+cp "build/dist/releases/webmail/2.26.4/snappymail-2.26.4.tar.gz" "../nextcloud/snappymail-2.26.4.tar.gz"
+_____
+cd D:\Github\SnappyMail\
+D:
