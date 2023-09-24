@@ -236,7 +236,19 @@ class Message implements \JsonSerializable
 				);
 			}
 
-			if ($spam = $oHeaders->ValueByName(\MailSo\Mime\Enumerations\Header::X_SPAMD_RESULT)) {
+			if ($spam = $oHeaders->ValueByName(\MailSo\Mime\Enumerations\Header::X_SPAM_STATUS)) {
+				$oMessage->sSpamResult = $spam;
+				if (\preg_match('/(?:hits|score)=([\\d\\.-]+)/', $spam, $value)
+				&& \preg_match('/required=([\\d\\.-]+)/', $spam, $required)) {
+					if ($threshold = \floatval($required[1])) {
+						$oMessage->setSpamScore(100 * \floatval($value[1]) / $threshold);
+						$oMessage->sSpamResult = "{$value[1]} / {$required[1]}";
+					}
+				}
+				$oMessage->bIsSpam = 'Yes' === \substr($spam, 0, 3);
+	//				$spam = $oHeaders->ValueByName(\MailSo\Mime\Enumerations\Header::X_SPAM_FLAG);
+	//				$oMessage->bIsSpam = false !== \stripos($spam, 'YES');
+			} else if ($spam = $oHeaders->ValueByName(\MailSo\Mime\Enumerations\Header::X_SPAMD_RESULT)) {
 				if (\preg_match('/\\[([\\d\\.-]+)\\s*\\/\\s*([\\d\\.]+)\\];/', $spam, $match)) {
 					if ($threshold = \floatval($match[2])) {
 						$oMessage->setSpamScore(100 * \floatval($match[1]) / $threshold);
