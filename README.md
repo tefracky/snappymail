@@ -227,3 +227,30 @@ Still TODO:
 CKEditor including the 7 asset requests (css,language,plugins,icons) is 633.46 KB / 180.47 KB (gzip).
 
 To use the old CKEditor, you must install the plugin.
+
+## Installation (private notes)
+
+### Setup
+_____
+cd ~
+git clone "https://github.com/tefracky/snappymail"
+cd snappymail
+git checkout private-improvements
+sudo npm install gulp -g
+yarn install
+gulp
+
+sudo apt install libzip-dev zip php-zip
+_____
+
+### Update
+_____
+cd ~/snappymail
+git fetch --all
+git checkout private-improvements
+git reset --hard origin/private-improvements
+php release.php
+
+cp "build/dist/releases/webmail/2.28.4/snappymail-2.28.4.zip" "../nextcloud/snappymail-2.28.4.zip"
+cp "build/dist/releases/webmail/2.28.4/snappymail-2.28.4.tar.gz" "../nextcloud/snappymail-2.28.4.tar.gz"
+_____
