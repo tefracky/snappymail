@@ -226,21 +226,7 @@ class Message implements \JsonSerializable
 			}
 			$oMessage->ReadReceipt = $sReadReceipt;
 
-			if ($spam = $oHeaders->ValueByName(MimeHeader::X_SPAMD_RESULT)) {
-				if (\preg_match('/\\[([\\d\\.-]+)\\s*\\/\\s*([\\d\\.]+)\\];/', $spam, $match)) {
-					if ($threshold = \floatval($match[2])) {
-						$oMessage->setSpamScore(100 * \floatval($match[1]) / $threshold);
-						$oMessage->sSpamResult = "{$match[1]} / {$match[2]}";
-					}
-				}
-				$oMessage->bIsSpam = false !== \stripos($oMessage->sSubject, '*** SPAM ***');
-			} else if ($spam = $oHeaders->ValueByName(MimeHeader::X_BOGOSITY)) {
-				$oMessage->sSpamResult = $spam;
-				$oMessage->bIsSpam = !\str_contains($spam, 'Ham');
-				if (\preg_match('/spamicity=([\\d\\.]+)/', $spam, $spamicity)) {
-					$oMessage->setSpamScore(100 * \floatval($spamicity[1]));
-				}
-			} else if ($spam = $oHeaders->ValueByName(MimeHeader::X_SPAM_STATUS)) {
+			if ($spam = $oHeaders->ValueByName(MimeHeader::X_SPAM_STATUS)) {
 				$oMessage->sSpamResult = $spam;
 				if (\preg_match('/(?:hits|score)=([\\d\\.-]+)/', $spam, $value)
 				 && \preg_match('/required=([\\d\\.-]+)/', $spam, $required)) {
@@ -261,6 +247,20 @@ class Message implements \JsonSerializable
 
 				$oMessage->bIsSpam = 'Yes' === \substr($spam, 0, 3)
 					|| false !== \stripos($oHeaders->ValueByName(MimeHeader::X_SPAM_FLAG), 'YES');
+			} else if ($spam = $oHeaders->ValueByName(MimeHeader::X_SPAMD_RESULT)) {
+				if (\preg_match('/\\[([\\d\\.-]+)\\s*\\/\\s*([\\d\\.]+)\\];/', $spam, $match)) {
+					if ($threshold = \floatval($match[2])) {
+						$oMessage->setSpamScore(100 * \floatval($match[1]) / $threshold);
+						$oMessage->sSpamResult = "{$match[1]} / {$match[2]}";
+					}
+				}
+				$oMessage->bIsSpam = false !== \stripos($oMessage->sSubject, '*** SPAM ***');
+			} else if ($spam = $oHeaders->ValueByName(MimeHeader::X_BOGOSITY)) {
+				$oMessage->sSpamResult = $spam;
+				$oMessage->bIsSpam = !\str_contains($spam, 'Ham');
+				if (\preg_match('/spamicity=([\\d\\.]+)/', $spam, $spamicity)) {
+					$oMessage->setSpamScore(100 * \floatval($spamicity[1]));
+				}
 			}
 
 			$sDraftInfo = $oHeaders->ValueByName(MimeHeader::X_DRAFT_INFO);
