@@ -224,3 +224,26 @@ Still TODO:
 |ckeditor	|       ?	| 520.035	|      ?	|  155.916	|
 
 CKEditor including the 7 asset requests (css,language,plugins,icons) is 633.46 KB / 180.47 KB (gzip).
+
+## Installation (private notes)
+
+### Setup
+cd ~
+apt install git npm php-cli php-zip
+npm install yarn gulp -g
+yarn install
+git checkout private-improvements
+git clone "https://github.com/tefracky/snappymail"
+cd snappymail
+gulp
+
+### Update
+
+cd /root/snappymail
+git fetch --all
+git checkout private-improvements
+git reset --hard origin/private-improvements
+php release.php
+
+cp "/root/snappymail/build/dist/releases/webmail/2.38.2/snappymail-2.38.2.zip" "../nextcloud/snappymail-2.38.2.zip"
+cp "/root/snappymail/build/dist/releases/webmail/2.38.2/snappymail-2.38.2.tar.gz" "../nextcloud/snappymail-2.38.2.tar.gz"
