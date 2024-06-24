@@ -229,6 +229,7 @@ To use the old CKEditor, you must install the plugin.
 ## Installation (private notes)
 
 ### Setup
+
 cd ~
 apt install git npm php-cli php-zip
 npm install yarn gulp -g
@@ -244,7 +245,10 @@ cd /root/snappymail
 git fetch --all
 git checkout private-improvements
 git reset --hard origin/private-improvements
+git pull
 php release.php
 
-cp "/root/snappymail/build/dist/releases/webmail/2.33.0/snappymail-2.33.0.zip" "../nextcloud/snappymail-2.33.0.zip"
-cp "/root/snappymail/build/dist/releases/webmail/2.33.0/snappymail-2.33.0.tar.gz" "../nextcloud/snappymail-2.33.0.tar.gz"
+cp "/root/snappymail/build/dist/releases/webmail/2.36.3/snappymail-2.36.3.zip" "../nextcloud/snappymail-2.36.3.zip"
+cp "/root/snappymail/build/dist/releases/webmail/2.36.3/snappymail-2.36.3.tar.gz" "../nextcloud/snappymail-2.36.3.tar.gz"
+
+/root/nextcloud-sync.sh
